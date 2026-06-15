@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spark Media | إعلانك يصنع الفرق</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800;900&family=Tajawal:wght@700;900&display=swap');
+
+  :root{
+    --bg:#06070C;
+    --panel:#0E1018;
+    --blue:#33C7FF;
+    --purple:#B14CFF;
+    --pink:#FF4CD6;
+    --text:#E9ECF5;
+    --muted:#9099B5;
+    --line:#23263a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:'Cairo',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.7;
+  }
+  a{color:inherit;text-decoration:none;}
+  img{max-width:100%;}
+
+  /* Header */
+  header{
+    background:rgba(6,7,12,.85);
+    backdrop-filter:blur(10px);
+    padding:16px 24px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    position:sticky;
+    top:0;
+    z-index:50;
+    border-bottom:1px solid var(--line);
+  }
+  .logo{
+    font-family:'Tajawal',sans-serif;
+    font-size:1.5rem;
+    font-weight:900;
+    letter-spacing:.05em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .logo .bolt{
+    display:inline-block;
+    width:22px;
+    height:30px;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    clip-path:polygon(60% 0, 100% 0, 35% 55%, 65% 55%, 0 100%, 30% 40%, 5% 40%);
+  }
+  nav{display:flex; align-items:center; gap:20px;}
+  nav a{font-size:.95rem;font-weight:700;transition:color .2s;}
+  nav a:hover{color:var(--blue);}
+  @media (max-width:760px){ nav a.nav-link{display:none;} }
+
+  #admin-toggle{
+    background:transparent;
+    border:1px solid var(--purple);
+    border-radius:8px;
+    width:36px; height:36px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--muted);
+    cursor:pointer;
+    transition:color .2s, border-color .2s;
+  }
+  #admin-toggle:hover{ color:var(--blue); border-color:var(--blue); }
+
+  /* Hero */
+  .hero{
+    position:relative;
+    overflow:hidden;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-bg{
+    width:100%;
+    display:block;
+    object-fit:cover;
+  }
+  .hero-overlay{
+    position:absolute;
+    inset:0;
+    background:linear-gradient(180deg, transparent 40%, var(--bg) 96%);
+  }
+  .hero-cta{
+    position:relative;
+    text-align:center;
+    padding:36px 24px 60px;
+    background:var(--bg);
+  }
+  .hero-cta p{
+    color:var(--muted);
+    max-width:560px;
+    margin:0 auto 28px;
+    font-size:1.05rem;
+  }
+
+  .btn{
+    display:inline-block;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    color:#06070C;
+    font-weight:900;
+    padding:15px 40px;
+    border-radius:999px;
+    transition:transform .15s, box-shadow .15s, filter .2s;
+    box-shadow:0 0 0 1px rgba(255,255,255,.05) inset;
+    border:none;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    font-size:.95rem;
+  }
+  .btn:hover{transform:translateY(-2px); box-shadow:0 10px 30px rgba(177,76,255,.45);}
+  .btn.alt{
+    background:transparent;
+    border:2px solid var(--purple);
+    color:var(--text);
+    margin-right:14px;
+  }
+  .btn.alt:hover{box-shadow:0 10px 30px rgba(51,199,255,.25);}
+  .btn-row{display:flex; gap:14px; justify-content:center; flex-wrap:wrap;}
+
+  /* Sections */
+  section{padding:70px 24px;}
+  .section-title{
+    font-family:'Tajawal',sans-serif;
+    font-size:clamp(1.7rem,4.5vw,2.6rem);
+    font-weight:900;
+    text-align:center;
+    margin-bottom:8px;
+  }
+  .section-title .accent{
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .section-sub{
+    text-align:center;
+    color:var(--muted);
+    max-width:600px;
+    margin:0 auto 50px;
+  }
+
+  /* Services grid */
+  .grid{
+    max-width:1100px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:22px;
+  }
+  .card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:30px 26px;
+    transition:transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .card:hover{
+    transform:translateY(-5px);
+    border-color:var(--purple);
+    box-shadow:0 16px 40px rgba(177,76,255,.18);
+  }
+  .card .icon{
+    width:52px; height:52px;
+    border-radius:14px;
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:18px;
+    background:linear-gradient(135deg, rgba(51,199,255,.15), rgba(177,76,255,.15));
+    border:1px solid var(--line);
+    font-size:1.5rem;
+  }
+  .card h3{margin-bottom:8px; font-size:1.1rem; font-weight:800;}
+  .card p{color:var(--muted); font-size:.92rem;}
+
+  /* Process */
+  .process{
+    background:var(--panel);
+    border-top:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .steps{
+    max-width:950px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:30px;
+    text-align:center;
+  }
+  .steps .step .n{
+    font-family:'Tajawal',sans-serif;
+    font-size:2.2rem;
+    font-weight:900;
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    margin-bottom:8px;
+  }
+  .steps .step h4{margin-bottom:6px; font-weight:800;}
+  .steps .step p{color:var(--muted); font-size:.9rem;}
+
+  /* Contact / payment */
+  .contact{ text-align:center; }
+  .contact h2{
+    font-family:'Tajawal',sans-serif;
+    font-size:clamp(1.8rem,5vw,2.6rem);
+    font-weight:900;
+    margin-bottom:14px;
+  }
+  .contact > p{color:var(--muted); margin-bottom:40px; max-width:560px; margin-inline:auto;}
+
+  .contact-grid{
+    max-width:900px;
+    margin:0 auto 40px;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+  }
+  .pay-card{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:16px;
+    padding:26px;
+    text-align:right;
+    position:relative;
+    overflow:hidden;
+  }
+  .pay-card h4{
+    color:var(--blue);
+    margin-bottom:10px;
+    font-size:1.05rem;
+    font-weight:800;
+    position:relative;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    justify-content:flex-end;
+  }
+  .pay-icon{
+    width:34px; height:34px;
+    border-radius:8px;
+    display:flex; align-items:center; justify-content:center;
+    font-weight:900;
+    font-size:.8rem;
+    color:#fff;
+    flex-shrink:0;
+  }
+  .pay-icon.instapay{ background:linear-gradient(135deg,#7B2FF7,#F2994A); }
+  .pay-icon.vodafone{ background:#E60000; }
+  .pay-card .number{
+    font-size:1.3rem;
+    font-weight:900;
+    letter-spacing:.05em;
+    direction:ltr;
+    text-align:right;
+    margin-bottom:6px;
+    position:relative;
+    color:var(--text);
+  }
+  .pay-card p{color:var(--muted); font-size:.85rem; position:relative;}
+
+  /* Portfolio */
+  .portfolio-grid{
+    max-width:1100px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:18px;
+  }
+  .portfolio-item{
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid var(--line);
+    aspect-ratio:1/1;
+    background:var(--panel);
+  }
+  .portfolio-item img{
+    width:100%; height:100%; object-fit:cover; display:block;
+  }
+
+  footer{
+    background:var(--bg);
+    color:var(--muted);
+    text-align:center;
+    padding:28px 24px;
+    font-size:.85rem;
+    border-top:1px solid var(--line);
+  }
+  footer .accent{
+    background:linear-gradient(135deg,var(--blue),var(--purple));
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+    font-weight:900;
+  }
+
+  /* Admin Modal */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(6,7,12,.8);
+    backdrop-filter:blur(4px);
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:16px;
+  }
+  .modal-overlay.active{ display:flex; }
+
+  .login-box{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:32px;
+    width:100%;
+    max-width:340px;
+    text-align:center;
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+  }
+  .login-icon{
+    width:48px; height:48px;
+    border-radius:12px;
+    background:linear-gradient(135deg, rgba(51,199,255,.15), rgba(177,76,255,.15));
+    border:1px solid var(--line);
+    display:flex; align-items:center; justify-content:center;
+    margin:0 auto 8px;
+    color:var(--blue);
+    font-size:1.4rem;
+  }
+  .login-box h3{ font-family:'Tajawal',sans-serif; font-weight:900; font-size:1.2rem; }
+  .login-box p.sub{ color:var(--muted); font-size:.9rem; margin-bottom:8px; }
+  .error-text{ color:var(--pink); font-size:.85rem; display:none; }
+  .error-text.active{ display:block; }
+  .login-buttons{ display:flex; gap:10px; margin-top:8px; }
+  .cancel-btn{
+    background:transparent;
+    border:1px solid var(--line);
+    color:var(--muted);
+    font-weight:700;
+    padding:12px 24px;
+    border-radius:999px;
+    cursor:pointer;
+    font-family:'Cairo',sans-serif;
+    font-size:.95rem;
+    flex:1;
+  }
+
+  .admin-panel{
+    background:var(--panel);
+    border:1px solid var(--line);
+    border-radius:18px;
+    width:100%;
+    max-width:600px;
+    max-height:85vh;
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+  }
+  .admin-header{
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 24px; border-bottom:1px solid var(--line);
+  }
+  .admin-header h2{ font-family:'Tajawal',sans-serif; font-size:1.2rem; font-weight:900; }
+  .icon-btn{
+    background:transparent; border:none; color:var(--muted);
+    cursor:pointer; font-size:1.4rem; line-height:1;
+  }
+  .tab-row{
+    display:flex; overflow-x:auto;
+    border-bottom:1px solid var(--line);
+    padding:0 16px;
+  }
+  .tab-btn{
+    background:transparent; border:none; color:var(--muted);
+    padding:14px 16px; font-family:'Cairo',sans-serif;
+    font-weight:700; font-size:.9rem; cursor:pointer;
+    border-bottom:2px solid transparent; white-space:nowrap;
+  }
+  .tab-btn.active{ color:var(--blue); border-bottom:2px solid var(--blue); }
+  .admin-body{ padding:20px 24px; overflow-y:auto; flex:1; }
+  .tab-content{ display:none; flex-direction:column; gap:8px; }
+  .tab-content.active{ display:flex; }
+  .field-label{
+    font-size:.85rem; color:var(--muted); font-weight:700; margin-top:12px;
+  }
+  .field-input, .field-textarea{
+    background:#171A28; border:1px solid var(--line); border-radius:8px;
+    padding:10px 14px; color:var(--text); font-family:'Cairo',sans-serif;
+    font-size:.95rem; width:100%;
+  }
+  .field-textarea{ resize:vertical; }
+  .color-row{ display:flex; gap:10px; align-items:center; }
+  .color-input{
+    width:48px; height:40px; border:1px solid var(--line); border-radius:8px;
+    background:transparent; cursor:pointer; flex-shrink:0; padding:2px;
+  }
+  .preview-box{ display:flex; align-items:center; gap:12px; margin-top:16px; }
+  .preview-swatch{ width:80px; height:40px; border-radius:8px; }
+  .service-card{
+    background:#171A28; border:1px solid var(--line); border-radius:12px;
+    padding:14px; margin-bottom:12px; display:flex; flex-direction:column; gap:10px;
+  }
+  .service-row{ display:flex; gap:10px; align-items:center; }
+  .icon-input{
+    background:var(--panel); border:1px solid var(--line); border-radius:8px;
+    padding:10px; color:var(--text); font-size:1.2rem; width:56px;
+    text-align:center; flex-shrink:0;
+  }
+  .icon-btn-danger{
+    background:transparent; border:1px solid #3a2330; border-radius:8px;
+    color:var(--pink); cursor:pointer; display:flex; align-items:center;
+    justify-content:center; width:36px; height:36px; flex-shrink:0; font-size:1.1rem;
+  }
+  .add-btn{
+    background:transparent; border:1px dashed var(--blue); border-radius:10px;
+    color:var(--blue); padding:12px; font-family:'Cairo',sans-serif;
+    font-weight:700; cursor:pointer; display:flex; align-items:center;
+    justify-content:center; gap:8px; margin-top:4px;
+  }
+  .admin-footer{
+    padding:16px 24px; border-top:1px solid var(--line);
+    display:flex; align-items:center; gap:14px; flex-wrap:wrap;
+  }
+  .footer-note{ color:var(--muted); font-size:.8rem; }
+
+  /* Portfolio admin items */
+  .portfolio-admin-item{
+    display:flex; gap:10px; align-items:center; margin-bottom:10px;
+  }
+  .portfolio-admin-item img{
+    width:50px; height:50px; object-fit:cover; border-radius:8px; border:1px solid var(--line);
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo"><span class="bolt"></span> <span id="brand-name">Spark Media</span></div>
+  <nav>
+    <a href="#services" class="nav-link">خدماتنا</a>
+    <a href="#portfolio" class="nav-link">أعمالنا</a>
+    <a href="#contact" class="nav-link">احجز دلوقتي</a>
+    <button id="admin-toggle" title="لوحة التحكم">🔒</button>
+  </nav>
+</header>
+
+<section class="hero">
+  <img src="images/logo-banner.jpg" alt="Spark Media" class="hero-bg">
+  <div class="hero-overlay"></div>
+  <div class="hero-cta">
+    <p id="hero-subtitle">تصاميم احترافية وفيديوهات إعلانية تليفت الانتباه — للمنتجات، البراندات، والأشخاص. إبداعنا... شرارة نجاحك.</p>
+    <!-- Typewriter -->
+    <div style="min-height:2.2rem; margin-bottom:24px;">
+      <span id="typewriter" style="font-size:1.2rem; font-weight:800; background:linear-gradient(135deg,var(--blue),var(--purple)); -webkit-background-clip:text; background-clip:text; color:transparent;"></span><span id="tw-cursor" style="color:var(--blue); animation:blink 1s infinite;">|</span>
+    </div>
+    <div class="btn-row">
+      <a id="cta-whatsapp" href="https://wa.me/201556200590" class="btn">احجز تصميمك الآن</a>
+      <a id="cta-facebook" href="https://www.facebook.com/share/14fimrRRw1X/" target="_blank" class="btn alt">شاهد خدماتنا</a>
+    </div>
+  </div>
+</section>
+
+<section id="services">
+  <h2 class="section-title">خدمات <span class="accent" id="brand-name-2">Spark Media</span></h2>
+  <p class="section-sub">كل ما تحتاجه لتظهر بشكل مميز أونلاين، في مكان واحد.</p>
+  <div class="grid" id="services-grid">
+    <!-- Filled by JS -->
+  </div>
+</section>
+
+<!-- Stats Section -->
+<section id="stats" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:50px 24px;">
+  <div style="max-width:900px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:30px; text-align:center;">
+    <!-- Filled by JS -->
+  </div>
+</section>
+
+<section id="portfolio" style="background:var(--panel); border-top:1px solid var(--line); border-bottom:1px solid var(--line); padding:70px 24px;">
+  <h2 class="section-title">شاهد <span class="accent">أعمالنا</span></h2>
+  <p class="section-sub">أمثلة من تصاميمنا وفيديوهاتنا السابقة.</p>
+
+  <div id="slider-wrapper" style="position:relative; max-width:860px; margin:0 auto;">
+    <!-- Slides -->
+    <div id="slider-track" style="overflow:hidden; border-radius:16px; border:1px solid var(--line); background:var(--bg); aspect-ratio:16/9; position:relative;">
+      <div id="slider-empty" style="display:flex; align-items:center; justify-content:center; height:100%; color:var(--muted); font-size:1rem;">
+        سيتم إضافة نماذج من أعمالنا قريباً.
+      </div>
+    </div>
+
+    <!-- Arrows -->
+    <button id="slider-prev" onclick="sliderMove(-1)" style="position:absolute;top:50%;right:-20px;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:var(--panel);border:1px solid var(--line);color:var(--text);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:5;">›</button>
+    <button id="slider-next" onclick="sliderMove(1)" style="position:absolute;top:50%;left:-20px;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;background:var(--panel);border:1px solid var(--line);color:var(--text);font-size:1.2rem;cursor:pointer;display:none;align-items:center;justify-content:center;z-index:5;">‹</button>
+
+    <!-- Dots -->
+    <div id="slider-dots" style="display:flex;justify-content:center;gap:8px;margin-top:16px;flex-wrap:wrap;"></div>
+
+    <!-- Counter -->
+    <div id="slider-counter" style="text-align:center;color:var(--muted);font-size:.85rem;margin-top:8px;display:none;"></div>
+  </div>
+</section>
+
+<section id="process" class="process">
+  <h2 class="section-title">طريقة <span class="accent">العمل</span></h2>
+  <p class="section-sub">من فكرتك لحد التسليم في خطوات بسيطة وسريعة.</p>
+  <div class="steps">
+    <div class="step">
+      <div class="n">١</div>
+      <h4>تواصل معنا</h4>
+      <p>راسلنا على واتساب وحدد نوع التصميم أو الفيديو المطلوب.</p>
+    </div>
+    <div class="step">
+      <div class="n">٢</div>
+      <h4>اتفاق على التفاصيل</h4>
+      <p>نحدد السعر والمدة ونستلم منك المحتوى أو الصور المطلوبة.</p>
+    </div>
+    <div class="step">
+      <div class="n">٣</div>
+      <h4>التنفيذ</h4>
+      <p>نبدأ في التصميم أو المونتاج ونرسل لك معاينة قبل التسليم النهائي.</p>
+    </div>
+    <div class="step">
+      <div class="n">٤</div>
+      <h4>التسليم</h4>
+      <p>تستلم ملفك جاهز بالجودة والمقاس المناسب للنشر مباشرة.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section id="pricing" style="padding:70px 24px;">
+  <h2 class="section-title">الأسعار <span class="accent">تبدأ من</span></h2>
+  <p class="section-sub">باقات مناسبة لكل الميزانيات — التفاصيل والتخصيص عن طريق واتساب.</p>
+  <div class="pricing-cards" style="max-width:1000px; margin:0 auto; display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px;">
+    <!-- Filled by JS -->
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <h2>جاهز تبدأ مشروعك؟ <span class="accent">احجز دلوقتي</span></h2>
+  <p>كلمنا على واتساب لتحديد تفاصيل طلبك، والدفع متاح بسهولة عن طريق:</p>
+
+  <div class="contact-grid">
+    <div class="pay-card">
+      <h4><span class="pay-icon instapay">IP</span> إنستاباي</h4>
+      <div class="number" id="instapay-number">01556200590</div>
+      <p>حوّل المبلغ المتفق عليه على نفس الرقم عبر تطبيق إنستاباي.</p>
+    </div>
+    <div class="pay-card">
+      <h4><span class="pay-icon vodafone">VC</span> فودافون كاش</h4>
+      <div class="number" id="vodafone-number">01556200590</div>
+      <p>أرسل المبلغ المتفق عليه على نفس الرقم عبر فودافون كاش.</p>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <a id="contact-whatsapp" href="https://wa.me/201556200590" class="btn">تواصل عبر واتساب</a>
+    <a id="contact-call" href="tel:01556200590" class="btn alt">اتصال مباشر</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 <span class="accent" id="brand-name-3">Spark Media</span> — جميع الحقوق محفوظة
+</footer>
+
+<!-- Login Modal -->
+<div class="modal-overlay" id="login-overlay">
+  <form class="login-box" id="login-form">
+    <div class="login-icon">🔒</div>
+    <h3>لوحة التحكم</h3>
+    <p class="sub">أدخل كلمة المرور للدخول</p>
+    <input type="password" id="password-input" class="field-input" style="text-align:center; font-size:1.1rem; letter-spacing:0.1em;" placeholder="••••••••" autocomplete="off">
+    <p class="error-text" id="login-error">كلمة المرور غير صحيحة</p>
+    <div class="login-buttons">
+      <button type="submit" class="btn" style="flex:1;">دخول</button>
+      <button type="button" class="cancel-btn" id="login-cancel">إلغاء</button>
+    </div>
+  </form>
+</div>
+
+<!-- Admin Panel -->
+<div class="modal-overlay" id="admin-overlay">
+  <div class="admin-panel">
+    <div class="admin-header">
+      <h2>لوحة التحكم — Spark Media</h2>
+      <button class="icon-btn" id="admin-close">✕</button>
+    </div>
+    <div class="tab-row">
+      <button class="tab-btn active" data-tab="general">النصوص الأساسية</button>
+      <button class="tab-btn" data-tab="colors">الألوان</button>
+      <button class="tab-btn" data-tab="services">الخدمات</button>
+      <button class="tab-btn" data-tab="portfolio">معرض الأعمال</button>
+      <button class="tab-btn" data-tab="payment">الدفع والتواصل</button>
+      <button class="tab-btn" data-tab="typewriter">✍️ الجمل المتحركة</button>
+      <button class="tab-btn" data-tab="stats">📊 الإحصائيات</button>
+      <button class="tab-btn" data-tab="pricing">💰 الأسعار</button>
+      <button class="tab-btn" data-tab="security">🔐 كلمة المرور</button>
+    </div>
+    <div class="admin-body">
+      <!-- General -->
+      <div class="tab-content active" data-tab="general">
+        <label class="field-label">اسم البراند</label>
+        <input class="field-input" id="edit-brand-name">
+
+        <label class="field-label">الوصف التعريفي (Hero)</label>
+        <textarea class="field-textarea" id="edit-hero-subtitle" rows="4"></textarea>
+      </div>
+
+      <!-- Colors -->
+      <div class="tab-content" data-tab="colors">
+        <label class="field-label">اللون الأساسي (الأزرق النيون)</label>
+        <div class="color-row">
+          <input type="color" id="edit-color-primary" class="color-input">
+          <input class="field-input" id="edit-color-primary-text">
+        </div>
+
+        <label class="field-label">اللون الثانوي (البنفسجي)</label>
+        <div class="color-row">
+          <input type="color" id="edit-color-secondary" class="color-input">
+          <input class="field-input" id="edit-color-secondary-text">
+        </div>
+
+        <div class="preview-box">
+          <div class="preview-swatch" id="color-preview"></div>
+          <span class="footer-note">معاينة التدرج</span>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="tab-content" data-tab="services">
+        <div id="services-editor"></div>
+        <button class="add-btn" id="add-service">+ إضافة خدمة جديدة</button>
+      </div>
+
+      <!-- Portfolio -->
+      <div class="tab-content" data-tab="portfolio">
+        <p class="footer-note" style="margin-bottom:10px;">أضف صور أو فيديوهات لأعمالك. كل عنصر بيظهر في السلايدر تلقائياً.</p>
+        <div id="portfolio-editor"></div>
+        <button class="add-btn" id="add-portfolio">+ إضافة عنصر جديد</button>
+      </div>
+
+      <!-- Payment -->
+      <div class="tab-content" data-tab="payment">
+        <label class="field-label">رقم واتساب (بدون +، مثال: 201556200590)</label>
+        <input class="field-input" id="edit-whatsapp" dir="ltr">
+
+        <label class="field-label">رابط صفحة الفيسبوك</label>
+        <input class="field-input" id="edit-facebook" dir="ltr">
+
+        <label class="field-label">رقم إنستاباي</label>
+        <input class="field-input" id="edit-instapay" dir="ltr">
+
+        <label class="field-label">رقم فودافون كاش</label>
+        <input class="field-input" id="edit-vodafone" dir="ltr">
+      </div>
+      <!-- Typewriter -->
+      <div class="tab-content" data-tab="typewriter">
+        <p class="footer-note" style="margin-bottom:12px;">الجمل اللي بتتكتب وتتمسح تلقائياً تحت الـ Hero. أضف أو احذف أو عدّل.</p>
+        <div id="tw-editor"></div>
+        <button class="add-btn" id="add-tw-phrase">+ إضافة جملة جديدة</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="tab-content" data-tab="stats">
+        <p class="footer-note" style="margin-bottom:12px;">الأرقام اللي بتتحرك عند التمرير. عدّل القيمة والتسمية لكل رقم.</p>
+        <div id="stats-editor"></div>
+        <button class="add-btn" id="add-stat">+ إضافة إحصائية</button>
+      </div>
+
+      <!-- Pricing -->
+      <div class="tab-content" data-tab="pricing">
+        <p class="footer-note" style="margin-bottom:12px;">بطاقات الأسعار. عدّل الأيقونة، العنوان، والوصف لكل باقة.</p>
+        <div id="pricing-editor"></div>
+        <button class="add-btn" id="add-pricing">+ إضافة باقة</button>
+      </div>
+
+      <!-- Security -->
+      <div class="tab-content" data-tab="security">
+        <p class="footer-note" style="margin-bottom:16px;">كلمة المرور محفوظة على Firebase — مش ظاهرة في الكود.</p>
+        <label class="field-label">كلمة المرور الحالية</label>
+        <input type="password" class="field-input" id="current-password" placeholder="••••••••" autocomplete="off">
+        <label class="field-label">كلمة المرور الجديدة</label>
+        <input type="password" class="field-input" id="new-password" placeholder="••••••••" autocomplete="new-password">
+        <label class="field-label">تأكيد كلمة المرور الجديدة</label>
+        <input type="password" class="field-input" id="confirm-password" placeholder="••••••••" autocomplete="new-password">
+        <p id="password-change-status" style="font-size:.85rem; margin-top:10px;"></p>
+        <button class="btn" id="change-password-btn" style="margin-top:12px; width:fit-content;">تغيير كلمة المرور</button>
+      </div>
+
+    </div>
+    <div class="admin-footer">
+      <button class="btn" id="save-changes">💾 حفظ التغييرات</button>
+      <span class="footer-note" id="save-status">التغييرات تظهر فوراً لكل زائر للموقع</span>
+    </div>
+  </div>
+</div>
+
+<!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyABc5oA2L-2_uehXkcDGGqF_JGJNYkqsKg",
+    authDomain: "spark-media-1.firebaseapp.com",
+    projectId: "spark-media-1",
+    storageBucket: "spark-media-1.firebasestorage.app",
+    messagingSenderId: "503174671293",
+    appId: "1:503174671293:web:cdeb734f6e620a9d6040d4",
+    measurementId: "G-CTVB5YZ3T3"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const contentRef = doc(db, "site", "content");
+  const securityRef = doc(db, "site", "security");
+
+  // Password loaded from Firebase — not hardcoded
+  let ADMIN_PASSWORD = null;
+
+  const DEFAULT_CONTENT = {
+    brandName: "Spark Media",
+    heroSubtitle: "تصاميم احترافية وفيديوهات إعلانية تليفت الانتباه — للمنتجات، البراندات، والأشخاص. إبداعنا... شرارة نجاحك.",
+    whatsapp: "201556200590",
+    facebookUrl: "https://www.facebook.com/share/14fimrRRw1X/",
+    instapayNumber: "01556200590",
+    vodafoneNumber: "01556200590",
+    primaryColor: "#33C7FF",
+    secondaryColor: "#B14CFF",
+    services: [
+      { icon: "🎬", title: "فيديوهات إعلانية", desc: "فيديوهات تسويقية قوية للمنتجات والبراندات، جاهزة للنشر على السوشيال ميديا." },
+      { icon: "🎨", title: "تصاميم احترافية", desc: "بوسترات وتصاميم مناسبات وإعلانات بهوية بصرية مميزة." },
+      { icon: "📣", title: "إدارة وحملات سوشيال ميديا", desc: "إدارة صفحاتك وحملاتك الإعلانية على فيسبوك وإنستجرام وتيك توك." },
+      { icon: "🚀", title: "سرعة في التنفيذ بجودة عالية", desc: "تسليم سريع من غير التضحية بالجودة، عشان مواعيدك ما تتأخرش." },
+      { icon: "🏷️", title: "أسعار مناسبة للجميع", desc: "باقات تناسب الأفراد والشركات الصغيرة والمشاريع الناشئة." },
+      { icon: "👤", title: "تسويق شخصي", desc: "محتوى مرئي يبني هويتك الشخصية أو البراند الخاص بك بشكل محترف." }
+    ],
+    portfolio: [],
+    twPhrases: [
+      'نحول فكرتك لإعلان يخطف العين ⚡',
+      'فيديوهات تسويقية تزيد مبيعاتك 🚀',
+      'تصاميم احترافية بأسعار مناسبة 🎨',
+      'إبداعنا... شرارة نجاحك ✨'
+    ],
+    stats: [
+      { num: 50, label: '+عميل راضي' },
+      { num: 100, label: '+تصميم وفيديو' },
+      { num: 7, label: 'سنوات خبرة' },
+      { num: 24, label: 'ساعة دعم فني' }
+    ],
+    pricing: [
+      { icon: '🎨', title: 'تصميم', desc: 'بوسترات • سوشيال ميديا • مناسبات', featured: false },
+      { icon: '🎬', title: 'فيديو تسويقي', desc: 'منتجات • براندات • أشخاص', featured: true },
+      { icon: '📣', title: 'باقة سوشيال ميديا', desc: 'إدارة • محتوى • إعلانات', featured: false }
+    ]
+  };
+
+  let currentContent = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+
+  // ---- Render ----
+  function renderSite(content) {
+    document.querySelectorAll('#brand-name, #brand-name-2, #brand-name-3').forEach(el => el.textContent = content.brandName);
+    document.getElementById('hero-subtitle').textContent = content.heroSubtitle;
+
+    document.getElementById('cta-whatsapp').href = `https://wa.me/${content.whatsapp}`;
+    document.getElementById('contact-whatsapp').href = `https://wa.me/${content.whatsapp}`;
+    document.getElementById('wa-float').href = `https://wa.me/${content.whatsapp}`;
+    startTypewriter(content.twPhrases);
+    renderStats(content.stats || DEFAULT_CONTENT.stats);
+    renderPricing(content.pricing || DEFAULT_CONTENT.pricing, content.whatsapp);
+    document.getElementById('cta-facebook').href = content.facebookUrl;
+    document.getElementById('contact-call').href = `tel:${content.instapayNumber}`;
+
+    document.getElementById('instapay-number').textContent = content.instapayNumber;
+    document.getElementById('vodafone-number').textContent = content.vodafoneNumber;
+
+    document.documentElement.style.setProperty('--blue', content.primaryColor);
+    document.documentElement.style.setProperty('--purple', content.secondaryColor);
+
+    // Services
+    const grid = document.getElementById('services-grid');
+    grid.innerHTML = '';
+    content.services.forEach(s => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="icon">${s.icon}</div>
+        <h3>${escapeHtml(s.title)}</h3>
+        <p>${escapeHtml(s.desc)}</p>
+      `;
+      grid.appendChild(card);
+    });
+
+    // Portfolio / Slider
+    const pTrack = document.getElementById('slider-track');
+    const pEmpty = document.getElementById('slider-empty');
+    const pDots  = document.getElementById('slider-dots');
+    const pCounter = document.getElementById('slider-counter');
+    const prevBtn = document.getElementById('slider-prev');
+    const nextBtn = document.getElementById('slider-next');
+
+    let sliderItems = [];
+    let sliderIndex = 0;
+    let sliderTimer = null;
+
+    function getYouTubeId(url) {
+      const m = url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([^?&\s]{11})/);
+      return m ? m[1] : null;
+    }
+    function getFacebookVideoId(url) {
+      return url.includes('facebook.com') && (url.includes('/videos/') || url.includes('fb.watch') || url.includes('reel'));
+    }
+    function isImage(url) {
+      return /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(url) || url.includes('imgur.com') || url.includes('i.ibb.co') || url.includes('postimg');
+    }
+    function isMp4(url) {
+      return /\.mp4(\?.*)?$/i.test(url);
+    }
+
+    function buildSlide(item) {
+      const wrap = document.createElement('div');
+      wrap.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#06070C;';
+
+      const url = item.url || item;
+      const ytId = getYouTubeId(url);
+
+      if (ytId) {
+        wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=0&rel=0" style="width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+      } else if (getFacebookVideoId(url)) {
+        const encoded = encodeURIComponent(url);
+        wrap.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=0&autoplay=0" style="width:100%;height:100%;border:none;" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>`;
+      } else if (isMp4(url)) {
+        wrap.innerHTML = `<video src="${url}" controls style="width:100%;height:100%;object-fit:contain;"></video>`;
+      } else {
+        wrap.innerHTML = `<img src="${url}" alt="عمل سابق" loading="lazy" style="width:100%;height:100%;object-fit:contain;">`;
+      }
+      return wrap;
+    }
+
+    function renderSlider(items) {
+      sliderItems = items || [];
+      pTrack.querySelectorAll('[data-slide]').forEach(el => el.remove());
+      pDots.innerHTML = '';
+      clearInterval(sliderTimer);
+
+      if (!sliderItems.length) {
+        pEmpty.style.display = 'flex';
+        prevBtn.style.display = 'none';
+        nextBtn.style.display = 'none';
+        pCounter.style.display = 'none';
+        return;
+      }
+
+      pEmpty.style.display = 'none';
+      sliderIndex = 0;
+
+      sliderItems.forEach((item, i) => {
+        const slide = buildSlide(item);
+        slide.setAttribute('data-slide', i);
+        slide.style.opacity = i === 0 ? '1' : '0';
+        slide.style.transition = 'opacity 0.5s ease';
+        slide.style.zIndex = i === 0 ? '1' : '0';
+        pTrack.appendChild(slide);
+
+        const dot = document.createElement('button');
+        dot.style.cssText = `width:10px;height:10px;border-radius:50%;border:none;cursor:pointer;transition:all .3s;background:${i===0?'var(--blue)':'var(--line)'}`;
+        dot.addEventListener('click', () => goToSlide(i));
+        pDots.appendChild(dot);
+      });
+
+      prevBtn.style.display = sliderItems.length > 1 ? 'flex' : 'none';
+      nextBtn.style.display = sliderItems.length > 1 ? 'flex' : 'none';
+      pCounter.style.display = sliderItems.length > 1 ? 'block' : 'none';
+      updateCounter();
+
+      if (sliderItems.length > 1) {
+        sliderTimer = setInterval(() => sliderMove(1), 4000);
+      }
+    }
+
+    function goToSlide(idx) {
+      const slides = pTrack.querySelectorAll('[data-slide]');
+      const dots = pDots.querySelectorAll('button');
+      slides[sliderIndex].style.opacity = '0';
+      slides[sliderIndex].style.zIndex = '0';
+      dots[sliderIndex].style.background = 'var(--line)';
+      sliderIndex = (idx + sliderItems.length) % sliderItems.length;
+      slides[sliderIndex].style.opacity = '1';
+      slides[sliderIndex].style.zIndex = '1';
+      dots[sliderIndex].style.background = 'var(--blue)';
+      updateCounter();
+      clearInterval(sliderTimer);
+      sliderTimer = setInterval(() => sliderMove(1), 4000);
+    }
+
+    function updateCounter() {
+      pCounter.textContent = `${sliderIndex + 1} / ${sliderItems.length}`;
+    }
+
+    window.sliderMove = function(dir) { goToSlide(sliderIndex + dir); };
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ---- Load from Firestore ----
+  async function loadContent() {
+    try {
+      // Load password
+      const secSnap = await getDoc(securityRef);
+      if (secSnap.exists()) {
+        ADMIN_PASSWORD = secSnap.data().password;
+      } else {
+        // First time: seed with default password
+        ADMIN_PASSWORD = "MAT7467";
+        await setDoc(securityRef, { password: ADMIN_PASSWORD });
+      }
+
+      // Load content
+      const snap = await getDoc(contentRef);
+      if (snap.exists()) {
+        currentContent = { ...DEFAULT_CONTENT, ...snap.data() };
+      } else {
+        await setDoc(contentRef, DEFAULT_CONTENT);
+        currentContent = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+      }
+    } catch (e) {
+      console.error("Firebase load error:", e);
+      currentContent = JSON.parse(JSON.stringify(DEFAULT_CONTENT));
+    }
+    renderSite(currentContent);
+  }
+
+  loadContent();
+
+  // ---- Admin Modal Logic ----
+  const loginOverlay = document.getElementById('login-overlay');
+  const adminOverlay = document.getElementById('admin-overlay');
+  const adminToggle = document.getElementById('admin-toggle');
+  const loginForm = document.getElementById('login-form');
+  const passwordInput = document.getElementById('password-input');
+  const loginError = document.getElementById('login-error');
+  const loginCancel = document.getElementById('login-cancel');
+  const adminClose = document.getElementById('admin-close');
+
+  adminToggle.addEventListener('click', () => {
+    passwordInput.value = '';
+    loginError.classList.remove('active');
+    loginOverlay.classList.add('active');
+    setTimeout(() => passwordInput.focus(), 50);
+  });
+
+  loginCancel.addEventListener('click', () => {
+    loginOverlay.classList.remove('active');
+  });
+
+  loginForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (passwordInput.value === ADMIN_PASSWORD) {
+      loginOverlay.classList.remove('active');
+      openAdminPanel();
+    } else {
+      loginError.classList.add('active');
+    }
+  });
+
+  adminClose.addEventListener('click', () => {
+    adminOverlay.classList.remove('active');
+  });
+
+  // ---- Tabs ----
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelector(`.tab-content[data-tab="${btn.dataset.tab}"]`).classList.add('active');
+    });
+  });
+
+  // ---- Populate Admin Form ----
+  function openAdminPanel() {
+    document.getElementById('edit-brand-name').value = currentContent.brandName;
+    document.getElementById('edit-hero-subtitle').value = currentContent.heroSubtitle;
+    document.getElementById('edit-color-primary').value = currentContent.primaryColor;
+    document.getElementById('edit-color-primary-text').value = currentContent.primaryColor;
+    document.getElementById('edit-color-secondary').value = currentContent.secondaryColor;
+    document.getElementById('edit-color-secondary-text').value = currentContent.secondaryColor;
+    document.getElementById('edit-whatsapp').value = currentContent.whatsapp;
+    document.getElementById('edit-facebook').value = currentContent.facebookUrl;
+    document.getElementById('edit-instapay').value = currentContent.instapayNumber;
+    document.getElementById('edit-vodafone').value = currentContent.vodafoneNumber;
+
+    updateColorPreview();
+    renderServicesEditor();
+    renderPortfolioEditor();
+    renderTwEditor();
+    renderStatsEditor();
+    renderPricingEditor();
+    document.getElementById('save-status').textContent = 'التغييرات تظهر فوراً لكل زائر للموقع';
+    adminOverlay.classList.add('active');
+  }
+
+  function updateColorPreview() {
+    const p1 = document.getElementById('edit-color-primary-text').value;
+    const p2 = document.getElementById('edit-color-secondary-text').value;
+    document.getElementById('color-preview').style.background = `linear-gradient(135deg, ${p1}, ${p2})`;
+  }
+
+  document.getElementById('edit-color-primary').addEventListener('input', (e) => {
+    document.getElementById('edit-color-primary-text').value = e.target.value;
+    updateColorPreview();
+  });
+  document.getElementById('edit-color-primary-text').addEventListener('input', (e) => {
+    document.getElementById('edit-color-primary').value = e.target.value;
+    updateColorPreview();
+  });
+  document.getElementById('edit-color-secondary').addEventListener('input', (e) => {
+    document.getElementById('edit-color-secondary-text').value = e.target.value;
+    updateColorPreview();
+  });
+  document.getElementById('edit-color-secondary-text').addEventListener('input', (e) => {
+    document.getElementById('edit-color-secondary').value = e.target.value;
+    updateColorPreview();
+  });
+
+  // ---- Services Editor ----
+  let draftServices = [];
+
+  function renderServicesEditor() {
+    draftServices = JSON.parse(JSON.stringify(currentContent.services));
+    const container = document.getElementById('services-editor');
+    container.innerHTML = '';
+    draftServices.forEach((s, idx) => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <div class="service-row">
+          <input class="icon-input" maxlength="4" value="${escapeAttr(s.icon)}" data-idx="${idx}" data-field="icon">
+          <input class="field-input" style="flex:1" value="${escapeAttr(s.title)}" data-idx="${idx}" data-field="title" placeholder="عنوان الخدمة">
+          <button class="icon-btn-danger" data-idx="${idx}" data-action="remove-service">🗑</button>
+        </div>
+        <textarea class="field-textarea" rows="2" data-idx="${idx}" data-field="desc" placeholder="وصف الخدمة">${escapeHtml(s.desc)}</textarea>
+      `;
+      container.appendChild(card);
+    });
+
+    container.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
+      el.addEventListener('input', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        const field = e.target.dataset.field;
+        draftServices[idx][field] = e.target.value;
+      });
+    });
+
+    container.querySelectorAll('[data-action="remove-service"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        draftServices.splice(idx, 1);
+        renderServicesEditorFromDraft();
+      });
+    });
+  }
+
+  function renderServicesEditorFromDraft() {
+    const container = document.getElementById('services-editor');
+    container.innerHTML = '';
+    draftServices.forEach((s, idx) => {
+      const card = document.createElement('div');
+      card.className = 'service-card';
+      card.innerHTML = `
+        <div class="service-row">
+          <input class="icon-input" maxlength="4" value="${escapeAttr(s.icon)}" data-idx="${idx}" data-field="icon">
+          <input class="field-input" style="flex:1" value="${escapeAttr(s.title)}" data-idx="${idx}" data-field="title" placeholder="عنوان الخدمة">
+          <button class="icon-btn-danger" data-idx="${idx}" data-action="remove-service">🗑</button>
+        </div>
+        <textarea class="field-textarea" rows="2" data-idx="${idx}" data-field="desc" placeholder="وصف الخدمة">${escapeHtml(s.desc)}</textarea>
+      `;
+      container.appendChild(card);
+    });
+    container.querySelectorAll('input[data-field], textarea[data-field]').forEach(el => {
+      el.addEventListener('input', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        const field = e.target.dataset.field;
+        draftServices[idx][field] = e.target.value;
+      });
+    });
+    container.querySelectorAll('[data-action="remove-service"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        draftServices.splice(idx, 1);
+        renderServicesEditorFromDraft();
+      });
+    });
+  }
+
+  function escapeAttr(str) {
+    return String(str).replace(/"/g, '&quot;');
+  }
+
+  document.getElementById('add-service').addEventListener('click', () => {
+    draftServices.push({ icon: '✨', title: 'خدمة جديدة', desc: 'وصف الخدمة' });
+    renderServicesEditorFromDraft();
+  });
+
+  // ---- Portfolio Editor ----
+  let draftPortfolio = [];
+
+  function renderPortfolioEditor() {
+    draftPortfolio = currentContent.portfolio ? currentContent.portfolio.map(p => typeof p === 'string' ? { type: 'image', url: p } : p) : [];
+    redrawPortfolioEditor();
+  }
+
+  function redrawPortfolioEditor() {
+    const container = document.getElementById('portfolio-editor');
+    container.innerHTML = '';
+    draftPortfolio.forEach((item, idx) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'background:#171A28;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;display:flex;flex-direction:column;gap:8px;';
+      row.innerHTML = `
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select data-idx="${idx}" data-field="type" style="background:#0E1018;border:1px solid var(--line);border-radius:8px;padding:8px 10px;color:var(--text);font-family:Cairo,sans-serif;font-size:.9rem;flex-shrink:0;">
+            <option value="image" ${item.type==='image'?'selected':''}>🖼️ صورة</option>
+            <option value="youtube" ${item.type==='youtube'?'selected':''}>▶️ يوتيوب</option>
+            <option value="facebook" ${item.type==='facebook'?'selected':''}>📘 فيسبوك</option>
+            <option value="mp4" ${item.type==='mp4'?'selected':''}>🎬 MP4</option>
+          </select>
+          <input class="field-input" style="flex:1;" value="${escapeAttr(item.url||'')}" data-idx="${idx}" data-field="url" dir="ltr" placeholder="${getPlaceholder(item.type)}">
+          <button class="icon-btn-danger" data-idx="${idx}" data-action="remove-portfolio" style="flex-shrink:0;">🗑</button>
+        </div>
+      `;
+      container.appendChild(row);
+    });
+
+    container.querySelectorAll('select[data-field], input[data-field]').forEach(el => {
+      el.addEventListener('input', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        const field = e.target.dataset.field;
+        draftPortfolio[idx][field] = e.target.value;
+        if (field === 'type') {
+          const urlInput = container.querySelector(`input[data-idx="${idx}"]`);
+          if (urlInput) urlInput.placeholder = getPlaceholder(e.target.value);
+        }
+      });
+    });
+    container.querySelectorAll('[data-action="remove-portfolio"]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const idx = parseInt(e.target.dataset.idx);
+        draftPortfolio.splice(idx, 1);
+        redrawPortfolioEditor();
+      });
+    });
+  }
+
+  function getPlaceholder(type) {
+    if (type === 'youtube') return 'https://www.youtube.com/watch?v=...';
+    if (type === 'facebook') return 'https://www.facebook.com/.../videos/...';
+    if (type === 'mp4') return 'https://example.com/video.mp4';
+    return 'https://i.imgur.com/example.jpg';
+  }
+
+  document.getElementById('add-portfolio').addEventListener('click', () => {
+    draftPortfolio.push({ type: 'image', url: '' });
+    redrawPortfolioEditor();
+  });
+
+  // ---- Save ----
+  document.getElementById('save-changes').addEventListener('click', async () => {
+    const newContent = {
+      brandName: document.getElementById('edit-brand-name').value || 'Spark Media',
+      heroSubtitle: document.getElementById('edit-hero-subtitle').value,
+      primaryColor: document.getElementById('edit-color-primary-text').value,
+      secondaryColor: document.getElementById('edit-color-secondary-text').value,
+      whatsapp: document.getElementById('edit-whatsapp').value,
+      facebookUrl: document.getElementById('edit-facebook').value,
+      instapayNumber: document.getElementById('edit-instapay').value,
+      vodafoneNumber: document.getElementById('edit-vodafone').value,
+      services: draftServices.filter(s => s.title.trim() !== ''),
+      portfolio: draftPortfolio.filter(item => item.url && item.url.trim() !== ''),
+      twPhrases: draftTw.filter(p => p.trim() !== ''),
+      stats: draftStats,
+      pricing: draftPricing
+    };
+
+    const statusEl = document.getElementById('save-status');
+    statusEl.textContent = 'جاري الحفظ...';
+
+    try {
+      await setDoc(contentRef, newContent);
+      currentContent = newContent;
+      renderSite(currentContent);
+      statusEl.textContent = '✅ تم الحفظ بنجاح';
+      setTimeout(() => {
+        statusEl.textContent = 'التغييرات تظهر فوراً لكل زائر للموقع';
+      }, 2000);
+    } catch (e) {
+      console.error("Save error:", e);
+      statusEl.textContent = '❌ حدث خطأ، حاول مرة أخرى';
+    }
+  });
+  // ---- Typewriter ----
+  let twPhrasesList = [];
+  let twIdx = 0, twChar = 0, twDeleting = false;
+  const twEl = document.getElementById('typewriter');
+  let twTimeout = null;
+
+  function typeLoop() {
+    if (!twPhrasesList.length) return;
+    const phrase = twPhrasesList[twIdx % twPhrasesList.length];
+    if (!twDeleting) {
+      twEl.textContent = phrase.slice(0, ++twChar);
+      if (twChar === phrase.length) { twDeleting = true; twTimeout = setTimeout(typeLoop, 1800); return; }
+    } else {
+      twEl.textContent = phrase.slice(0, --twChar);
+      if (twChar === 0) { twDeleting = false; twIdx = (twIdx + 1) % twPhrasesList.length; }
+    }
+    twTimeout = setTimeout(typeLoop, twDeleting ? 40 : 80);
+  }
+
+  function startTypewriter(phrases) {
+    clearTimeout(twTimeout);
+    twPhrasesList = phrases && phrases.length ? phrases : ['إبداعنا... شرارة نجاحك ✨'];
+    twIdx = 0; twChar = 0; twDeleting = false;
+    typeLoop();
+  }
+
+  // ---- Stats Counter ----
+  let statsAnimated = false;
+  function animateStats(statsData) {
+    document.querySelectorAll('.stat-item').forEach((item, i) => {
+      const target = statsData[i] ? statsData[i].num : parseInt(item.dataset.target);
+      const el = item.querySelector('.stat-num');
+      let current = 0;
+      const step = Math.max(1, Math.ceil(target / 50));
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = current + '+';
+        if (current >= target) { el.textContent = target + '+'; clearInterval(timer); }
+      }, 30);
+    });
+  }
+
+  function renderStats(statsData) {
+    const section = document.getElementById('stats');
+    if (!section) return;
+    const container = section.querySelector('div');
+    container.innerHTML = '';
+    statsData.forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'stat-item';
+      div.dataset.target = s.num;
+      div.innerHTML = `
+        <div class="stat-num" style="font-family:'Tajawal',sans-serif;font-size:2.8rem;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;">0+</div>
+        <div style="color:var(--muted);font-size:.95rem;margin-top:4px;">${escapeHtml(s.label)}</div>
+      `;
+      container.appendChild(div);
+    });
+    statsAnimated = false;
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !statsAnimated) {
+          statsAnimated = true;
+          animateStats(statsData);
+          observer.disconnect();
+        }
+      });
+    }, { threshold: 0.3 });
+    observer.observe(section);
+  }
+
+  function renderPricing(pricingData, whatsapp) {
+    const section = document.getElementById('pricing');
+    if (!section) return;
+    const container = section.querySelector('.pricing-cards');
+    if (!container) return;
+    container.innerHTML = '';
+    pricingData.forEach((p, i) => {
+      const msgs = ['عايز أعرف أسعار التصميم','عايز أعرف أسعار الفيديو التسويقي','عايز أعرف أسعار باقة السوشيال ميديا'];
+      const msg = msgs[i] || 'عايز أعرف الأسعار';
+      const card = document.createElement('div');
+      card.style.cssText = `background:var(--panel);border:${p.featured?'2px solid var(--purple)':'1px solid var(--line)'};border-radius:16px;padding:30px;text-align:center;position:relative;transition:transform .2s;`;
+      card.innerHTML = `
+        ${p.featured ? '<div style="position:absolute;top:-14px;right:50%;transform:translateX(50%);background:linear-gradient(135deg,var(--blue),var(--purple));color:#06070C;font-weight:900;font-size:.8rem;padding:4px 16px;border-radius:999px;">الأكثر طلباً</div>' : ''}
+        <div style="font-size:1.8rem;margin-bottom:12px;">${p.icon}</div>
+        <h3 style="font-size:1.1rem;font-weight:800;margin-bottom:8px;">${escapeHtml(p.title)}</h3>
+        <div style="font-family:'Tajawal',sans-serif;font-size:2.2rem;font-weight:900;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;background-clip:text;color:transparent;margin-bottom:4px;">تبدأ من</div>
+        <div style="font-size:1rem;color:var(--muted);margin-bottom:20px;">${escapeHtml(p.desc)}</div>
+        <a href="https://wa.me/${whatsapp}?text=${encodeURIComponent(msg)}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,var(--blue),var(--purple));color:#06070C;font-weight:900;padding:12px 28px;border-radius:999px;font-size:.95rem;">اسأل عن السعر</a>
+      `;
+      container.appendChild(card);
+    });
+  }
+
+  // ---- Typewriter Editor ----
+  let draftTw = [];
+  function renderTwEditor() {
+    draftTw = [...(currentContent.twPhrases || DEFAULT_CONTENT.twPhrases)];
+    redrawTwEditor();
+  }
+  function redrawTwEditor() {
+    const c = document.getElementById('tw-editor');
+    c.innerHTML = '';
+    draftTw.forEach((phrase, idx) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;';
+      row.innerHTML = `<input class="field-input" style="flex:1;" value="${escapeAttr(phrase)}" data-idx="${idx}" placeholder="اكتب جملة..."><button class="icon-btn-danger" data-idx="${idx}" data-action="remove-tw">🗑</button>`;
+      c.appendChild(row);
+    });
+    c.querySelectorAll('input[data-idx]').forEach(el => el.addEventListener('input', e => { draftTw[parseInt(e.target.dataset.idx)] = e.target.value; }));
+    c.querySelectorAll('[data-action="remove-tw"]').forEach(btn => btn.addEventListener('click', e => { draftTw.splice(parseInt(e.target.dataset.idx), 1); redrawTwEditor(); }));
+  }
+  document.getElementById('add-tw-phrase').addEventListener('click', () => { draftTw.push(''); redrawTwEditor(); });
+
+  // ---- Stats Editor ----
+  let draftStats = [];
+  function renderStatsEditor() {
+    draftStats = JSON.parse(JSON.stringify(currentContent.stats || DEFAULT_CONTENT.stats));
+    redrawStatsEditor();
+  }
+  function redrawStatsEditor() {
+    const c = document.getElementById('stats-editor');
+    c.innerHTML = '';
+    draftStats.forEach((s, idx) => {
+      const row = document.createElement('div');
+      row.style.cssText = 'display:flex;gap:8px;align-items:center;margin-bottom:8px;';
+      row.innerHTML = `<input class="field-input" style="width:80px;text-align:center;" type="number" value="${s.num}" data-idx="${idx}" data-field="num" min="0"><input class="field-input" style="flex:1;" value="${escapeAttr(s.label)}" data-idx="${idx}" data-field="label" placeholder="التسمية"><button class="icon-btn-danger" data-idx="${idx}" data-action="remove-stat">🗑</button>`;
+      c.appendChild(row);
+    });
+    c.querySelectorAll('input[data-field]').forEach(el => el.addEventListener('input', e => {
+      const idx = parseInt(e.target.dataset.idx); const field = e.target.dataset.field;
+      draftStats[idx][field] = field === 'num' ? parseInt(e.target.value)||0 : e.target.value;
+    }));
+    c.querySelectorAll('[data-action="remove-stat"]').forEach(btn => btn.addEventListener('click', e => { draftStats.splice(parseInt(e.target.dataset.idx), 1); redrawStatsEditor(); }));
+  }
+  document.getElementById('add-stat').addEventListener('click', () => { draftStats.push({ num: 0, label: 'تسمية' }); redrawStatsEditor(); });
+
+  // ---- Pricing Editor ----
+  let draftPricing = [];
+  function renderPricingEditor() {
+    draftPricing = JSON.parse(JSON.stringify(currentContent.pricing || DEFAULT_CONTENT.pricing));
+    redrawPricingEditor();
+  }
+  function redrawPricingEditor() {
+    const c = document.getElementById('pricing-editor');
+    c.innerHTML = '';
+    draftPricing.forEach((p, idx) => {
+      const card = document.createElement('div');
+      card.style.cssText = 'background:#171A28;border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px;display:flex;flex-direction:column;gap:8px;';
+      card.innerHTML = `
+        <div style="display:flex;gap:8px;align-items:center;">
+          <input class="icon-input" maxlength="4" value="${escapeAttr(p.icon)}" data-idx="${idx}" data-field="icon" style="width:52px;">
+          <input class="field-input" style="flex:1;" value="${escapeAttr(p.title)}" data-idx="${idx}" data-field="title" placeholder="عنوان الباقة">
+          <button class="icon-btn-danger" data-idx="${idx}" data-action="remove-pricing">🗑</button>
+        </div>
+        <input class="field-input" value="${escapeAttr(p.desc)}" data-idx="${idx}" data-field="desc" placeholder="وصف الباقة">
+        <label style="display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);cursor:pointer;">
+          <input type="checkbox" data-idx="${idx}" data-field="featured" ${p.featured?'checked':''} style="width:16px;height:16px;">
+          تمييز كـ "الأكثر طلباً"
+        </label>`;
+      c.appendChild(card);
+    });
+    c.querySelectorAll('input[data-field]').forEach(el => {
+      el.addEventListener('change', e => {
+        const idx = parseInt(e.target.dataset.idx); const field = e.target.dataset.field;
+        if (field === 'featured') draftPricing[idx][field] = e.target.checked;
+      });
+      el.addEventListener('input', e => {
+        const idx = parseInt(e.target.dataset.idx); const field = e.target.dataset.field;
+        if (field !== 'featured') draftPricing[idx][field] = e.target.value;
+      });
+    });
+    c.querySelectorAll('[data-action="remove-pricing"]').forEach(btn => btn.addEventListener('click', e => { draftPricing.splice(parseInt(e.target.dataset.idx), 1); redrawPricingEditor(); }));
+  }
+  document.getElementById('add-pricing').addEventListener('click', () => { draftPricing.push({ icon: '✨', title: 'باقة جديدة', desc: 'وصف الباقة', featured: false }); redrawPricingEditor(); });
+
+  document.getElementById('change-password-btn').addEventListener('click', async () => {
+    const currentPwd = document.getElementById('current-password').value;
+    const newPwd = document.getElementById('new-password').value;
+    const confirmPwd = document.getElementById('confirm-password').value;
+    const statusEl = document.getElementById('password-change-status');
+
+    if (currentPwd !== ADMIN_PASSWORD) {
+      statusEl.style.color = '#FF4CD6';
+      statusEl.textContent = '❌ كلمة المرور الحالية غير صحيحة';
+      return;
+    }
+    if (newPwd.length < 6) {
+      statusEl.style.color = '#FF4CD6';
+      statusEl.textContent = '❌ كلمة المرور الجديدة لازم تكون 6 أحرف على الأقل';
+      return;
+    }
+    if (newPwd !== confirmPwd) {
+      statusEl.style.color = '#FF4CD6';
+      statusEl.textContent = '❌ كلمة المرور الجديدة والتأكيد مش متطابقين';
+      return;
+    }
+
+    try {
+      await setDoc(securityRef, { password: newPwd });
+      ADMIN_PASSWORD = newPwd;
+      document.getElementById('current-password').value = '';
+      document.getElementById('new-password').value = '';
+      document.getElementById('confirm-password').value = '';
+      statusEl.style.color = '#33C7FF';
+      statusEl.textContent = '✅ تم تغيير كلمة المرور بنجاح';
+    } catch (e) {
+      statusEl.style.color = '#FF4CD6';
+      statusEl.textContent = '❌ حدث خطأ، حاول مرة أخرى';
+    }
+  });
+</script>
+
+<!-- Floating WhatsApp Button -->
+<a id="wa-float" href="https://wa.me/201556200590" target="_blank" title="تواصل عبر واتساب"
+  style="
+    position:fixed;
+    bottom:24px;
+    left:24px;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:#25D366;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    box-shadow:0 4px 20px rgba(37,211,102,.5);
+    z-index:999;
+    transition:transform .2s, box-shadow .2s;
+  "
+  onmouseover="this.style.transform='scale(1.12)';this.style.boxShadow='0 6px 28px rgba(37,211,102,.7)'"
+  onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 20px rgba(37,211,102,.5)'"
+>
+  <svg width="30" height="30" viewBox="0 0 32 32" fill="white" xmlns="http://www.w3.org/2000/svg">
+    <path d="M16 2C8.268 2 2 8.268 2 16c0 2.478.675 4.797 1.85 6.786L2 30l7.42-1.82A13.94 13.94 0 0016 30c7.732 0 14-6.268 14-14S23.732 2 16 2zm0 25.5a11.44 11.44 0 01-5.82-1.587l-.418-.248-4.33 1.063 1.094-4.218-.272-.433A11.46 11.46 0 014.5 16C4.5 9.649 9.649 4.5 16 4.5S27.5 9.649 27.5 16 22.351 27.5 16 27.5zm6.29-8.61c-.345-.172-2.04-1.006-2.356-1.12-.316-.115-.546-.172-.776.172-.23.345-.89 1.12-1.09 1.35-.2.23-.4.258-.745.086-.345-.172-1.456-.537-2.773-1.71-1.025-.913-1.717-2.04-1.918-2.385-.2-.345-.022-.531.15-.703.155-.155.345-.4.517-.6.172-.2.23-.345.345-.575.115-.23.057-.43-.029-.603-.086-.172-.776-1.87-1.063-2.56-.28-.672-.564-.58-.776-.59l-.66-.011c-.23 0-.603.086-.918.43-.316.345-1.206 1.178-1.206 2.872s1.235 3.33 1.407 3.56c.172.23 2.43 3.71 5.888 5.205.823.355 1.465.567 1.966.726.826.263 1.578.226 2.172.137.662-.099 2.04-.834 2.328-1.638.287-.804.287-1.493.2-1.638-.086-.144-.316-.23-.66-.4z"/>
+  </svg>
+</a>
+
+<!-- Pulse animation -->
+<style>
+  @keyframes wa-pulse {
+    0% { box-shadow: 0 4px 20px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,.4); }
+    70% { box-shadow: 0 4px 20px rgba(37,211,102,.5), 0 0 0 14px rgba(37,211,102,0); }
+    100% { box-shadow: 0 4px 20px rgba(37,211,102,.5), 0 0 0 0 rgba(37,211,102,0); }
+  }
+  #wa-float { animation: wa-pulse 2s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+</style>
+
+</body>
+</html>
