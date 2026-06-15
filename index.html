@@ -818,7 +818,19 @@
       return m ? m[1] : null;
     }
     function getFacebookVideoId(url) {
-      return url.includes('facebook.com') && (url.includes('/videos/') || url.includes('fb.watch') || url.includes('reel'));
+      return (
+        url.includes('facebook.com') || url.includes('fb.watch') || url.includes('fb.me')
+      ) && (
+        url.includes('/videos/') ||
+        url.includes('/reel') ||
+        url.includes('/reels/') ||
+        url.includes('fb.watch') ||
+        url.includes('fb.me') ||
+        url.includes('watch?v=') ||
+        url.includes('/video/') ||
+        url.includes('story_fbid') ||
+        /facebook\.com\/.+\/\d{10,}/.test(url)
+      );
     }
     function isImage(url) {
       return /\.(jpg|jpeg|png|gif|webp|svg)(\?.*)?$/i.test(url) || url.includes('imgur.com') || url.includes('i.ibb.co') || url.includes('postimg');
@@ -832,14 +844,60 @@
       wrap.style.cssText = 'position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:#06070C;';
 
       const url = item.url || item;
+      const itemType = typeof item === 'object' ? item.type : null;
       const ytId = getYouTubeId(url);
 
-      if (ytId) {
+      // Detect by explicit type field first, then fall back to URL sniffing
+      const isFacebook = itemType === 'facebook' || (!itemType && getFacebookVideoId(url));
+      const isYoutube  = itemType === 'youtube'  || (!itemType && !isFacebook && ytId);
+      const isMp4Vid   = itemType === 'mp4'       || (!itemType && !isFacebook && !isYoutube && isMp4(url));
+
+      if (isYoutube && ytId) {
         wrap.innerHTML = `<iframe src="https://www.youtube.com/embed/${ytId}?autoplay=0&rel=0" style="width:100%;height:100%;border:none;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-      } else if (getFacebookVideoId(url)) {
+      } else if (isFacebook) {
         const encoded = encodeURIComponent(url);
-        wrap.innerHTML = `<iframe src="https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=0&autoplay=0" style="width:100%;height:100%;border:none;" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>`;
-      } else if (isMp4(url)) {
+        const iframeId = 'fb-iframe-' + Math.random().toString(36).substr(2,8);
+        wrap.innerHTML = `
+          <iframe
+            id="${iframeId}"
+            src="https://www.facebook.com/plugins/video.php?href=${encoded}&show_text=0&autoplay=0&width=800"
+            style="width:100%;height:100%;border:none;"
+            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+            allowfullscreen
+            scrolling="no"
+          ></iframe>
+          <div id="fb-fallback-${iframeId}" style="display:none;position:absolute;inset:0;background:#06070C;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:24px;text-align:center;">
+            <div style="font-size:2.5rem;">🎬</div>
+            <p style="color:var(--muted);font-size:.95rem;max-width:280px;">الفيديو ده من فيسبوك — المتصفح بيمنع تضمينه هنا أحياناً.</p>
+            <a href="${url.replace(/&amp;/g,'&')}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,var(--blue),var(--purple));color:#06070C;font-weight:900;padding:12px 28px;border-radius:999px;font-family:'Cairo',sans-serif;font-size:.95rem;">شاهد الفيديو على فيسبوك ↗</a>
+          </div>
+        `;
+        // Detect if iframe failed to load (blocked by browser/CORS)
+        setTimeout(() => {
+          const fbIframe = document.getElementById(iframeId);
+          const fbFallback = document.getElementById('fb-fallback-' + iframeId);
+          if (!fbIframe || !fbFallback) return;
+          try {
+            // If iframe is blocked, it often has 0 height or throws on contentWindow access
+            fbIframe.addEventListener('error', () => {
+              fbIframe.style.display = 'none';
+              fbFallback.style.display = 'flex';
+            });
+            // Additional check: if after 3s the iframe has no content (blocked)
+            setTimeout(() => {
+              try {
+                const h = fbIframe.contentWindow.document.body;
+                if (!h || h.innerHTML === '') {
+                  fbIframe.style.display = 'none';
+                  fbFallback.style.display = 'flex';
+                }
+              } catch(e) {
+                // Cross-origin block means iframe DID load (fb.com is cross-origin) — this is actually OK
+              }
+            }, 3000);
+          } catch(e) {}
+        }, 100);
+      } else if (isMp4Vid) {
         wrap.innerHTML = `<video src="${url}" controls style="width:100%;height:100%;object-fit:contain;"></video>`;
       } else {
         wrap.innerHTML = `<img src="${url}" alt="عمل سابق" loading="lazy" style="width:100%;height:100%;object-fit:contain;">`;
@@ -1167,7 +1225,7 @@
 
   function getPlaceholder(type) {
     if (type === 'youtube') return 'https://www.youtube.com/watch?v=...';
-    if (type === 'facebook') return 'https://www.facebook.com/.../videos/...';
+    if (type === 'facebook') return 'https://www.facebook.com/reel/... أو /videos/... أو fb.watch/...';
     if (type === 'mp4') return 'https://example.com/video.mp4';
     return 'https://i.imgur.com/example.jpg';
   }
